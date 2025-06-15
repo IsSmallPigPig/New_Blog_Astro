@@ -21,7 +21,7 @@ const { title } = Astro.props;
   <!-- 预加载和异步加载背景 -->
 <link 
   rel="preload" 
-  href="/background.svg" 
+  href="/background.webp" 
   as="image" 
   media="(prefers-color-scheme: light)"
 >
@@ -38,7 +38,7 @@ window.addEventListener('load', () => {
   const bg = new Image();
   bg.src = window.matchMedia('(prefers-color-scheme: dark)').matches 
     ? '/background-dark.svg' 
-    : '/background.svg';
+    : '/background.webp';
     
   bg.onload = () => {
     document.body.style.backgroundImage = `url(${bg.src})`;
@@ -52,7 +52,7 @@ window.addEventListener('load', () => {
 
   
   <!-- 预加载背景图 -->
-  <link rel="preload" href="/background.svg" as="image">
+  <link rel="preload" href="/background.webp" as="image">
 </head>
 
 <body class="min-h-screen flex flex-col bg-opacity-90">
