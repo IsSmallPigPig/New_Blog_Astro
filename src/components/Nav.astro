@@ -1,0 +1,176 @@
+---
+const links = [
+  { path: "/", name: "网站首页", icon: "icon-home" },
+  { path: "/posts", name: "文海拾贝", icon: "icon-book" },
+  { path: "/projects", name: "项目作品", icon: "icon-code" },
+  { path: "/friends", name: "四海友邻", icon: "icon-friend" },
+  { path: "/moments", name: "闲言碎语", icon: "icon-chat" },
+  { path: "/about", name: "我的碑铭", icon: "icon-me" }
+];
+---
+
+<nav class="sticky top-0 z-50 border-b border-accent/10 backdrop-blur-lg bg-surface/30 dark:bg-surface/50 transition-colors">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- 左侧品牌 -->
+      <a 
+        href="/" 
+        class="text-xl font-bold hover:text-accent transition-colors flex items-center gap-2"
+      >
+        <svg class="w-6 h-6 text-accent md:block hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Anko Blog
+      </a>
+
+      <!-- 移动端菜单按钮 -->
+      <button id="mobile-menu" class="md:hidden p-2 text-primary">
+        <i class="iconfont icon-menu text-2xl"></i>
+      </button>
+
+      <!-- 右侧容器 -->
+      <div class="flex items-center gap-6">
+        <!-- 桌面导航菜单 -->
+        <div class="hidden md:flex items-center gap-6">
+          {links.map(link => (
+            <a 
+              href={link.path}
+              class="flex items-center gap-1.5 hover:text-accent transition-colors group relative"
+              class:list={[{
+                'text-accent': Astro.url.pathname === link.path
+              }]}
+            >
+              <i class={`iconfont ${link.icon} text-lg`} />
+              <span class="text-sm font-medium tracking-wide">{link.name}</span>
+              
+              {Astro.url.pathname === link.path && (
+                <div class="absolute -bottom-1.5 left-0 w-full h-0.5 bg-accent rounded-full animate-line-expand" />
+              )}
+            </a>
+          ))}
+        </div>
+
+        <!-- 昼夜切换按钮 -->
+        <button
+          id="theme-toggle"
+          class="relative w-14 h-8 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors group"
+          aria-label="昼夜切换"
+        >
+          <div id="theme-thumb" class="
+            absolute top-1 w-6 h-6 bg-white dark:bg-gray-300 rounded-full shadow-lg
+            transition-all duration-300 flex items-center justify-center
+            left-1 dark:left-7 group-hover:scale-110
+          ">
+            <i id="theme-icon" class="
+              absolute inset-0 flex items-center justify-center
+              iconfont text-sm
+              text-yellow-500 dark:text-gray-800
+              transition-opacity
+              opacity-100 dark:opacity-0
+            ">☀️</i>
+            <i class="
+              absolute inset-0 flex items-center justify-center
+              iconfont text-sm
+              text-gray-800 dark:text-yellow-400
+              transition-opacity
+              opacity-0 dark:opacity-100
+            ">🌙</i>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- 移动端下拉菜单 -->
+    <div id="mobile-nav" class="md:hidden absolute top-full left-0 w-full bg-surface/95 backdrop-blur-lg shadow-lg origin-top transition-all duration-300 scale-y-0 opacity-0">
+      <div class="px-4 py-3 space-y-4">
+        {links.map(link => (
+          <a 
+            href={link.path}
+            class="flex items-center gap-3 p-2 hover:bg-accent/10 rounded-lg transition-colors"
+            class:list={[{
+              'text-accent': Astro.url.pathname === link.path
+            }]}
+          >
+            <i class={`iconfont ${link.icon} text-lg`} />
+            <span class="font-medium">{link.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* 移动端菜单动画 */
+  #mobile-nav[data-open="true"] {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  /* 品牌图标响应式 */
+  @media (max-width: 768px) {
+    nav a svg {
+      display: none;
+    }
+    nav a span {
+      display: none;
+    }
+  }
+
+  /* 当前页面指示器 */
+  .animate-line-expand {
+    animation: line-expand 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes line-expand {
+    from { transform: scaleX(0) }
+    to { transform: scaleX(1) }
+  }
+</style>
+
+<script>
+  // 移动端菜单切换
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileNav = document.getElementById('mobile-nav');
+  
+  mobileMenu.addEventListener('click', () => {
+    const isOpen = mobileNav.getAttribute('data-open') === 'true';
+    mobileNav.setAttribute('data-open', !isOpen);
+    mobileNav.style.transform = `scaleY(${isOpen ? 0 : 1})`;
+    mobileNav.style.opacity = isOpen ? 0 : 1;
+  });
+
+  // 点击菜单项自动关闭
+  mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.setAttribute('data-open', 'false');
+      mobileNav.style.transform = 'scaleY(0)';
+      mobileNav.style.opacity = 0;
+    });
+  });
+
+  // 初始化主题（保持原有）
+  const initTheme = () => {
+    const savedTheme = localStorage.getItem('theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+  };
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    const thumb = document.getElementById('theme-thumb');
+    thumb.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+      thumb.style.transform = 'scale(1)';
+    }, 100);
+  });
+
+  initTheme();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      document.documentElement.classList.toggle('dark', e.matches);
+    }
+  });
+</script>

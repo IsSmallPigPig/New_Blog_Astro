@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GithubStats from '../components/GithubStats.astro';
+
+const skills = [
+  { name: 'C++', level: 23, color: 'bg-[#E44D26]' },
+  { name: 'JavaScript', level: 85, color: 'bg-[#F0DB4F]' },
+  { name: 'Vuepress', level: 78, color: 'bg-[#FF5D01]' },
+  { name: 'Python', level: 92, color: 'bg-[#3776AB]' }
+];
+
+const timeline = [
+  { year: "2018", title: "初识编程", desc: "首次接触到高级语言" },
+  { year: "2022", title: "全栈实践", desc: "首次尝试与社区开发" },
+  { year: "2025", title: "开源贡献", desc: "继续努力为社区贡献" },
+];
+---
+
+<BaseLayout title="关于">
+  <main class="max-w-4xl mx-auto px-4 py-12 space-y-16">
+    <!-- GitHub统计 -->
+      <GithubStats username="MareSera" />
+
+    <!-- 技能图谱 -->
+    <div class="card group">
+      <h2 class="text-3xl mb-8">🛠 技艺图谱</h2>
+      <div class="space-y-6">
+        {skills.map(skill => (
+          <div class="animate-fade-in">
+            <div class="flex justify-between mb-2 text-sm font-medium">
+              <span>{skill.name}</span>
+              <span class="text-accent">{skill.level}%</span>
+            </div>
+            <div class="h-3 bg-accent/10 rounded-full overflow-hidden">
+              <div 
+                class={`h-full ${skill.color} rounded-full transition-all duration-1000 ease-out`}
+                style={`width: ${skill.level}%`}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 时间轴 -->
+    <div class="card">
+      <h2 class="text-3xl mb-8">⏳ 时光轨迹</h2>
+      <div class="relative pl-8">
+        {/* 时间轴线 */}
+        <div class="absolute left-0 top-4 bottom-4 w-px bg-gradient-to-b from-accent/20 via-accent/50 to-accent/20" />
+        
+        {timeline.map((item, index) => (
+          <div class="relative mb-12 group">
+            {/* 时间节点装饰 */}
+            <div class="absolute left-[-34px] top-1 flex h-8 w-8 items-center justify-center rounded-full bg-accent shadow-lg transition-transform group-hover:scale-110">
+              <svg class="h-4 w-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+
+            {/* 内容卡片 */}
+            <div class="pl-8">
+              <div class="flex items-baseline gap-4 mb-2">
+                <span class="text-2xl font-bold text-accent">{item.year}</span>
+                <span class="text-lg font-medium opacity-80">{item.title}</span>
+              </div>
+              <p class="text-secondary pl-2 border-l-2 border-accent/30 leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 关于我 -->
+    <div class="card bg-surface/50">
+      <h2 class="text-3xl mb-8">😎 关于本人</h2>
+      <div class="prose dark:prose-invert">
+        <p>数字世界的游吟诗人，用代码编织逻辑之美。</p>
+        <p>热爱前端开发的优雅，痴迷算法设计的精妙，在文学与技术的交汇处寻找诗意。</p>
+        <blockquote>
+          "代码如诗，不应止于功能实现，更要追求艺术表达"
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- 关于本站 -->
+    <div class="card bg-surface/50">
+      <h2 class="text-3xl mb-8">🌌 关于本站</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="prose dark:prose-invert">
+          <h3>技术栈</h3>
+          <ul>
+            <li>Astro - 现代静态站点生成器</li>
+            <li>Tailwind CSS - 实用优先的CSS框架</li>
+            <li>GitHub API - 动态数据集成</li>
+          </ul>
+        </div>
+        <div class="prose dark:prose-invert">
+          <h3>设计理念</h3>
+          <ul>
+            <li>极简主义美学</li>
+            <li>响应式交互设计</li>
+            <li>无障碍阅读体验</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 联系表单 -->
+    <div class="card text-center">
+      <h2 class="text-3xl mb-4">📮 鸿雁传书</h2>
+      <p class="text-secondary mb-6">期待您的来信，交流技术或畅谈人生</p>
+      <a 
+        href="mailto:ankoqaq@gmail.com"
+        class="inline-flex items-center gap-2 px-8 py-3 bg-accent text-surface rounded-lg hover:bg-accent/90 transition-transform hover:scale-105"
+      >
+        <i class="iconfont icon-mail text-xl" />
+        发送邮件
+      </a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* 时间轴优化样式 */
+  .timeline-node {
+    box-shadow: 0 4px 6px -1px rgba(var(--color-accent), 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    .timeline-content {
+      padding-left: 2rem;
+    }
+  }
+</style>

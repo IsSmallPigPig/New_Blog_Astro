@@ -1,0 +1,135 @@
+---
+import Nav from '../components/Nav.astro';
+import '../styles/global.css';
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <link 
+    rel="stylesheet" 
+    href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css" 
+  />
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Anko Blog - 记录技术思考与生活感悟">
+  <title>{title} | Anko Blog</title>
+
+  <!-- 预加载和异步加载背景 -->
+<link 
+  rel="preload" 
+  href="/background.svg" 
+  as="image" 
+  media="(prefers-color-scheme: light)"
+>
+<link 
+  rel="preload" 
+  href="/background-dark.svg" 
+  as="image" 
+  media="(prefers-color-scheme: dark)"
+>
+
+<script>
+// 动态加载背景
+window.addEventListener('load', () => {
+  const bg = new Image();
+  bg.src = window.matchMedia('(prefers-color-scheme: dark)').matches 
+    ? '/background-dark.svg' 
+    : '/background.svg';
+    
+  bg.onload = () => {
+    document.body.style.backgroundImage = `url(${bg.src})`;
+  };
+});
+</script>
+
+  
+  <!-- 图标字体 -->
+  <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4903580_71y8zot9v72.css">
+
+  
+  <!-- 预加载背景图 -->
+  <link rel="preload" href="/background.svg" as="image">
+</head>
+
+<body class="min-h-screen flex flex-col bg-opacity-90">
+  <Nav />
+
+  <main class="flex-1 py-16">
+    <slot />
+  </main>
+
+  <footer class="border-t border-accent/10 mt-24 py-8 text-center text-secondary bg-surface/50">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <h3 class="font-serif mb-3">探索</h3>
+          <div class="space-y-2 text-sm">
+            <a href="/posts" class="hover:text-accent">文章合集</a>
+            <a href="/tags" class="hover:text-accent">标签合集</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-serif mb-3">社交</h3>
+          <div class="space-y-2 text-sm">
+            <a href="https://github.com/IsSmallPigPig" class="hover:text-accent">GitHub</a>
+            <a href="https://space.bilibili.com/1984969360" class="hover:text-accent">bilibili</a>
+          </div>
+        </div>
+      </div>
+      <p class="text-sm">© 2025 AnkoQAQ · 诗意栖居</p>
+    </div>
+  </footer>
+
+  <style is:global>
+    /* 全局滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      @apply bg-surface/50;
+    }
+    ::-webkit-scrollbar-thumb {
+      @apply bg-accent/30 rounded-full hover:bg-accent/40;
+    }
+
+    /* 动画效果 */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out;
+    }
+
+    /* 优化中文排版 */
+  .prose {
+    text-spacing: ideograph-alpha ideograph-numeric;
+    hanging-punctuation: allow-end;
+  }
+
+  /* 首段首字下沉 */
+  .prose > p:first-child::first-letter {
+    @apply float-left text-5xl mr-2 leading-none 
+           text-accent mt-1;
+  }
+
+  /* 段落首行缩进 */
+  .prose p {
+    text-indent: 2em;
+  }
+
+  /* 不缩进的情况 */
+  .prose p:first-child,
+  .prose p > img:first-child + p,
+  .prose ul + p,
+  .prose ol + p {
+    text-indent: 0;
+  }
+  </style>
+</body>
+</html>

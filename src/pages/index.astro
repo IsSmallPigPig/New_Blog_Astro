@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .sort((a, b) => b.data.pubDate - a.data.pubDate)
+  .slice(0, 5);
+
+const profile = {
+  avatar: "/img/tx.png",
+  motto: "代码如诗，逻辑为歌",
+  socials: [
+    { icon: "icon-github-fill", link: "https://github.com/IsSmallPigPig" },
+    { icon: "icon-bilibili", link: "https://space.bilibili.com/1984969360" }
+  ],
+  featuredProject: {
+    title: "ZonelessZoneZero Auto",
+    desc: "一个基于 Python 的依赖于机器视觉的自动化框架",
+    tech: ["Python", "机器视觉"],
+    link: "https://github.com/sMythicalBird/ZenlessZoneZero-Auto"
+  },
+  todos: [
+    { text: "更新服务器的面板", done: false },
+    { text: "更新广播站的文章", done: false }
+  ]
+};
+---
+
+<BaseLayout title="首页">
+  <section class="max-w-4xl mx-auto px-4 py-12 space-y-16">
+    <!-- 个人信息 -->
+    <div class="flex flex-col md:flex-row items-center gap-8">
+      <img 
+        src={profile.avatar} 
+        class="w-32 h-32 rounded-full border-4 border-accent/20 shadow-lg" 
+        alt="头像" 
+      />
+      <div class="text-center md:text-left">
+        <h1 class="text-5xl md:text-6xl mb-6">
+          <div class="flex flex-col md:flex-row gap-2 items-center">
+            <span class="bg-gradient-to-b from-accent to-primary bg-clip-text text-transparent">
+              代码如诗
+            </span>
+            <span class="text-primary/40 mx-2 hidden md:inline">/</span>
+            <span class="bg-gradient-to-b from-primary to-accent bg-clip-text text-transparent">
+              逻辑为歌
+            </span>
+          </div>
+        </h1>
+        <div class="flex justify-center md:justify-start gap-4">
+          {profile.socials.map(social => (
+            <a href={social.link} class="w-12 h-12 flex items-center justify-center rounded-full bg-accent/10 hover:bg-accent/20 transition-colors">
+              <i class={`iconfont ${social.icon} text-xl text-accent`} />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- 特色项目 & Todo -->
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="card">
+        <h2 class="text-2xl mb-4">✨ 置顶项目</h2>
+        <h3 class="text-xl mb-2 text-accent">{profile.featuredProject.title}</h3>
+        <p class="text-secondary mb-4">{profile.featuredProject.desc}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          {profile.featuredProject.tech.map(tech => (
+            <span class="px-3 py-1 bg-accent/10 text-accent rounded-full">
+              {tech}
+            </span>
+          ))}
+        </div>
+        <a href={profile.featuredProject.link} class="inline-flex items-center gap-2 text-accent hover:underline">
+          探索详情 <i class="iconfont icon-arrow-right" />
+        </a>
+      </div>
+
+      <div class="card">
+        <h2 class="text-2xl mb-4">📝 待办清单</h2>
+        <ul class="space-y-3">
+          {profile.todos.map((todo, index) => (
+            <li class="group relative flex items-center gap-3 p-2 rounded-lg transition-colors">
+              {/* 鼠标触碰框 */}
+              <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity border border-accent/20" />
+              
+              {/* 原有内容 */}
+              <i class={`iconfont ${
+                todo.done 
+                  ? 'icon-yuanxingxuanzhong text-accent z-10' 
+                  : 'icon-yuanxingweixuanzhong text-primary/50 z-10'
+              } text-xl transition-colors`} />
+              
+              <span class="relative z-10 transition-all duration-300"
+                    class:line-through={todo.done}
+                    class:text-secondary={todo.done}
+                    class:opacity-80={todo.done}>
+                {todo.text}
+                {todo.done && (
+                  <div class="absolute left-0 top-1/2 w-full h-px bg-accent/80 -translate-y-1/2" 
+                      style="transform: translateY(-55%)" />
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <style>
+        /* 添加触碰框动画 */
+        [class*="bg-accent/5"] {
+          transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                      border-color 0.3s ease;
+        }
+        .group:hover [class*="bg-accent/5"] {
+          border-color: rgb(var(--color-accent)/0.4);
+        }
+        
+        /* 移动端优化 */
+        @media (hover: none) {
+          [class*="bg-accent/5"] {
+            display: none;
+          }
+        }
+      </style>
+
+    </div>
+
+    <!-- 最新文章 -->
+    <div class="card">
+      <h2 class="text-2xl mb-6">📖 新的文章</h2>
+      <div class="grid gap-4">
+        {posts.map(post => (
+          <a href={`/posts/${post.slug}`} class="flex items-center justify-between p-4 hover:bg-accent/5 rounded-lg transition-colors">
+            <div>
+              <h3 class="text-lg font-medium">{post.data.title}</h3>
+              <div class="flex items-center gap-3 text-sm text-secondary mt-1">
+                <time>{post.data.pubDate.toLocaleDateString()}</time>
+                <div class="flex gap-2">
+                  {post.data.tags.map(tag => (
+                    <span class="px-2 py-1 bg-accent/10 text-accent rounded-full">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <i class="iconfont icon-arrow-right text-accent/50" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* 基础文字渐变样式 */
+  .text-transparent {
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+  
+  /* 字体渲染优化 */
+  .font-serif {
+    font-family: 'HarmonyOS Sans';
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  /* 删除线优化 */
+  .line-through {
+    text-decoration-thickness: 999px;
+    text-decoration-color: rgb(var(--color-accent)/0.8);
+    text-underline-offset: 0.2em;
+  }
+  .dark .line-through {
+    text-decoration-color: rgb(var(--color-accent)/0.6);
+  }
+</style>

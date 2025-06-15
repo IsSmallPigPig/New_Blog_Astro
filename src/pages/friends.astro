@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const friends = [
+  {
+    name: "AnkoQAQ",
+    avatar: "https://avatars.githubusercontent.com/u/89781739?s=400&u=f63b5ad3d3a95cd4492911d0682363b04bb00d68&v=4",
+    url: "https://r.sufwz.com/",
+    desc: "本网站的作者",
+    tags: ["本人"]
+  }
+];
+---
+
+<BaseLayout title="友链">
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl mb-8">✨ 四海友邻</h1>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      {friends.map(friend => (
+        <a href={friend.url} target="_blank" class="card group">
+          <div class="flex items-start gap-4">
+            <img src={friend.avatar} 
+                 class="w-16 h-16 rounded-full border-2 border-accent/20"
+                 alt={friend.name} />
+            <div>
+              <h2 class="text-xl font-medium group-hover:text-accent transition-colors">
+                {friend.name}
+              </h2>
+              <p class="text-secondary mt-2">{friend.desc}</p>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                {friend.tags.map(tag => (
+                  <span class="px-2 py-1 bg-accent/10 text-accent rounded-full text-sm">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</BaseLayout>
