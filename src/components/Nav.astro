@@ -8,7 +8,6 @@ const links = [
   { path: "/about", name: "我的碑铭", icon: "icon-me" }
 ];
 ---
-
 <nav class="sticky top-0 z-50 border-b border-accent/10 backdrop-blur-lg bg-surface/30 dark:bg-surface/50 transition-colors">
   <div class="max-w-6xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
@@ -128,7 +127,7 @@ const links = [
   }
 </style>
 
-<script>
+<script is:inline>
   // 移动端菜单切换
   const mobileMenu = document.getElementById('mobile-menu');
   const mobileNav = document.getElementById('mobile-nav');
@@ -174,3 +173,5 @@ const links = [
     }
   });
 </script>
+
+

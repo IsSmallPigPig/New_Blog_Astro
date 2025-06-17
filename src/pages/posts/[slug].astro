@@ -21,6 +21,24 @@ if (!post) return Astro.redirect('/404');
 // 正确解构Content组件
 const { Content } = await post.render();
 const contentLength = post.body?.length || 0;
+
+const setDarkMode = () => {
+  if (typeof window !== "undefined") {
+    const isSystemColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const storageTheme = sessionStorage.getItem("theme");
+    if (!storageTheme && isSystemColorSchemeDark) {
+      document.documentElement.classList.add("dark");
+      document.head.children.namedItem("theme-color").content = "#262626";
+    } else if (storageTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      document.head.children.namedItem("theme-color").content = "#262626";
+    } else {
+      // 我们已经在服务器端渲染了亮色主题
+      document.head.children.namedItem("theme-color").content = "#ffffff";
+    }
+  }
+};
+
 ---
 
 <BaseLayout title={post.data.title}>
