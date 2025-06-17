@@ -1,0 +1,12 @@
+:root {
+  --bg-image: url(/background.webp);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-image: url(/background-dark.webp);
+  }
+}
+body {
+  background-image: var(--bg-image);
+  transition: background-image 0.3s ease; /* 添加平滑过渡 */
+}

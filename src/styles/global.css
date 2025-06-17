@@ -140,3 +140,26 @@ body::before {
     transform: translateY(0);
   }
 }
+
+/* 在 base.css 或全局样式中 */
+html.light body {
+  background-image: url("/background.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+html.dark body {
+  background-image: url("/background-dark.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* 确保 nav 毛玻璃效果立即生效 */
+nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.3); /* or dark variant */
+  transition: none !important;
+}

@@ -9,17 +9,10 @@ export default defineConfig({
     tailwind(),
     mdx()
   ],
+
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
-    rehypePlugins: [
-      [rehypeKatex, {
-        macros: {
-          "\\RR": "\\mathbb{R}",
-          "\\CC": "\\mathbb{C}"
-        }
-      }]
-    ],
     syntaxHighlight: 'shiki',
     shikiConfig: {
       theme: 'github-dark',
