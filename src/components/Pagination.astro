@@ -1,6 +1,6 @@
 ---
 const { currentPage, totalPages, baseUrl } = Astro.props;
-
+export const prerender = true;
 const getPagePath = (page) => 
   page === 1 ? baseUrl : `${baseUrl}/${page}`;
 ---

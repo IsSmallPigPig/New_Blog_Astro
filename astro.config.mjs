@@ -4,21 +4,24 @@ import mdx from '@astrojs/mdx';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
+import netlify from '@astrojs/netlify';
+import decapCmsOauth from 'astro-decap-cms-oauth';
+
 export default defineConfig({
-  integrations: [
-    tailwind(),
-    mdx()
-  ],
+  integrations: [tailwind(), mdx(), decapCmsOauth()],
 
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
     syntaxHighlight: 'shiki',
+    output: 'server',
+    adapter: netlify(),
     shikiConfig: {
       theme: 'github-dark',
       wrap: true
     }
   },
+
   vite: {
     define: {
       'import.meta.env.GITHUB_TOKEN': JSON.stringify(process.env.GITHUB_TOKEN)
@@ -33,5 +36,7 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+
+  adapter: netlify()
 });

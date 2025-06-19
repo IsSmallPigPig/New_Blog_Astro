@@ -2,11 +2,12 @@
 const links = [
   { path: "/", name: "网站首页", icon: "icon-home" },
   { path: "/posts", name: "文海拾贝", icon: "icon-book" },
-  { path: "/projects", name: "项目作品", icon: "icon-code" },
   { path: "/friends", name: "四海友邻", icon: "icon-friend" },
   { path: "/moments", name: "闲言碎语", icon: "icon-chat" },
+  { path: "/projects", name: "项目作品", icon: "icon-code" },
   { path: "/about", name: "我的碑铭", icon: "icon-me" }
 ];
+export const prerender = true;
 ---
 
 <nav class="sticky top-0 z-50 border-b border-accent/10 backdrop-blur-lg bg-surface/30 dark:bg-surface/50 transition-colors">

@@ -1,7 +1,7 @@
 ---
 // src/components/RelatedPosts.astro
 import { getCollection } from 'astro:content';
-
+export const prerender = true;
 const { currentPost } = Astro.props;
 
 const allPosts = await getCollection('posts');

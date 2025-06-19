@@ -1,6 +1,6 @@
 ---
 import { getGitHubStats } from '../utils/github';
-
+export const prerender = true;
 const { username } = Astro.props;
 const stats = await getGitHubStats(username);
 ---

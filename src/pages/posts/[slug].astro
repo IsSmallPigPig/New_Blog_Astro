@@ -15,6 +15,7 @@ const { slug } = Astro.props;
 const post = await getCollection('posts').then(posts => 
   posts.find(p => p.slug === slug)
 );
+export const prerender = true;
 
 if (!post) return Astro.redirect('/404');
 

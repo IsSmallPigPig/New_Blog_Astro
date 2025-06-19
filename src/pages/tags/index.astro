@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('posts');
-
+export const prerender = true;
 const tagMap = allPosts.reduce((acc, post) => {
   post.data.tags.forEach(tag => {
     const slug = tag.toLowerCase().replace(/\s+/g, '-');
