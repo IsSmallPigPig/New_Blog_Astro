@@ -2,18 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+.cyber-text {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+}
+
+
 :root {
   --color-primary: 64 64 64;
   --color-secondary: 147 147 147;
-  --color-accent: 0 184 169;
+  --color-accent: 0 120 200;
   --color-surface: 255 255 255;
+    /* 浅色主题滤镜 - 转换为浅色主题色(--color-accent: 0 120 200) */
+  --icon-filter-dark: 
+    brightness(0.8) 
+    sepia(1) 
+    hue-rotate(195deg) 
+    saturate(4)
 }
 
 .dark {
   --color-primary: 235 235 235;
   --color-secondary: 180 180 180;
-  --color-accent: 0 118 225;
+  --color-accent: 64 224 255;
   --color-surface: 38 38 38;
+  --icon-filter-light: var(--icon-filter-dark);
 }
 
 body {

@@ -10,3 +10,6 @@ body {
   background-image: var(--bg-image);
   transition: background-image 0.3s ease; /* 添加平滑过渡 */
 }
+.cyber-text {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+}

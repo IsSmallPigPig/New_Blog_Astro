@@ -8,13 +8,14 @@ backend:
   auth_endpoint: oauth 
 
 
-# 参考文档：https://decapcms.org/docs/collection-folder/
 collections:
-  - name: "blog" # 用于路由，例如，/admin/collections/blog
-    label: "博客文章"  # UI 中显示名
-    folder: "src/content/posts/" # 存储文档的文件夹路径
-    create: true # 允许用户在此集合中创建新文档
-    fields:  # 匹配 md 文档开头的 Front Matter ，参考：https://decapcms.org/docs/widgets/
+  - name: "blog"
+    label: "博客文章"
+    folder: "src/content/posts/"
+    create: true
+    slug: "{{fields.filename}}"  # 使用自定义字段作为文件名
+    fields:
+      - { label: "文件名", name: "filename", widget: "string", required: true }  # 新增文件名字段
       - { label: "标题", name: "title", widget: "string" }
       - { label: "简介", name: "description", widget: "string", default: "这是一篇有意思的文章" }
       - { label: "发布日期", name: "pubDate", widget: "datetime", date_format: "YYYY-MM-DD" }
@@ -23,18 +24,14 @@ collections:
       - { label: "封面", name: "cover", widget: "string", default: "/social-card.avif" }
       - { label: "正文", name: "body", widget: "markdown" }
 
-  - name: "moments" # 用于路由，例如，/admin/collections/blog
-    label: "闲言碎语"  # UI 中显示名
-    folder: "src/content/moments/" # 存储文档的文件夹路径
-    create: true # 允许用户在此集合中创建新文档
-    fields:  # 匹配 md 文档开头的 Front Matter ，参考：https://decapcms.org/docs/widgets/
+  - name: "moments"
+    label: "闲言碎语"
+    folder: "src/content/moments/"
+    create: true
+    slug: "{{fields.filename}}"  # 使用自定义字段作为文件名
+    fields:
+      - { label: "文件名", name: "filename", widget: "string", required: true }  # 新增文件名字段
       - { label: "标题", name: "mood", widget: "string" }
       - { label: "发布日期", name: "date", widget: "datetime", date_format: "YYYY-MM-DD" }
       - { label: "标签", name: "tags", widget: "list" }
       - { label: "正文", name: "body", widget: "markdown" }
-
-
-
-media_folder: "/images" # 文件将被存储在仓库中的位置
-public_folder: "/images" # 上传媒体文件的 src 属性
-logo_url: /logo.ico # 站点logo
