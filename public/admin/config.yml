@@ -35,3 +35,7 @@ collections:
       - { label: "发布日期", name: "date", widget: "datetime", date_format: "YYYY-MM-DD" }
       - { label: "标签", name: "tags", widget: "list" }
       - { label: "正文", name: "body", widget: "markdown" }
+
+media_folder: "/public/images" # 文件将被存储在仓库中的位置
+public_folder: "/public/images" # 上传媒体文件的 src 属性
+logo_url: /logo.ico # 站点logo
