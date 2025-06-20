@@ -6,8 +6,7 @@
     "dev": "dotenv -e .env -- astro dev",
     "build": "dotenv -e .env -- astro build",
     "preview": "dotenv -e .env -- astro preview",
-    "astro": "dotenv -e .env -- astro",
-    "postbuild": "pagefind --site dist/client --output-path .Netlify/output/static/pagefind"
+    "astro": "dotenv -e .env -- astro"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.5",
